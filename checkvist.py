@@ -66,7 +66,7 @@ class user_account:
         print user['username']
 
         """
-        user_url = 'http://checkvist.com/auth/curr_user.json'
+        user_url = 'https://checkvist.com/auth/curr_user.json'
         payload = {'token': self.api_token}
         r = requests.get(user_url, params=payload)
         parsed_json = json.loads(r.content)
@@ -89,7 +89,7 @@ class user_account:
             print i['name']
 
         """
-        list_url = 'http://checkvist.com/checklists.json'
+        list_url = 'https://checkvist.com/checklists.json'
         payload = {'token': self.api_token}
         r = requests.get(list_url, params=payload)
         parsed_json = json.loads(r.content)
@@ -103,7 +103,7 @@ class user_account:
 
     def get_archive_lists(self):
 
-        list_url = 'http://checkvist.com/checklists.json'
+        list_url = 'https://checkvist.com/checklists.json'
         payload = {'token': self.api_token, 'archived': 'true'}
         r = requests.get(list_url, params=payload)
         parsed_json = json.loads(r.content)
@@ -123,7 +123,7 @@ class user_account:
         print my_list_info['name']
 
         """
-        list_url = 'http://checkvist.com/checklists/{}.json'.format(list_id)
+        list_url = 'https://checkvist.com/checklists/{}.json'.format(list_id)
         payload = {'token': self.api_token}
         r = requests.get(list_url, params=payload)
         parsed_json = json.loads(r.content)
@@ -146,7 +146,7 @@ class user_account:
         Public Lists:
             new_list = cl.create_list('test list', is_public=1)
         """
-        list_url = 'http://checkvist.com/checklists.json'
+        list_url = 'https://checkvist.com/checklists.json'
         payload = {'token': self.api_token, 'checklist[name]': list_name}
         if is_public == 1:
             payload['checklist[public]'] =1
@@ -176,7 +176,7 @@ class user_account:
             new_list = cl.create_list('156984', is_public=1)
 
         """
-        list_url = 'http://checkvist.com/checklists/{}.json'.format(list_id)
+        list_url = 'https://checkvist.com/checklists/{}.json'.format(list_id)
         payload = {'token': self.api_token,}
         if list_name:
             payload['checklist[name]'] = list_name
@@ -203,7 +203,7 @@ class user_account:
         my_list = cl.delete_list('156984')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}.json'.format(list_id)
+        list_url = 'https://checkvist.com/checklists/{}.json'.format(list_id)
         payload = {'token': self.api_token}
         r = requests.delete(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -232,7 +232,7 @@ class user_account:
         my_tasks = cl.get_tasks('156983' notes=1)
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks.json'.format(list_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks.json'.format(list_id)
         if notes:
             payload = {'token': self.api_token, 'with_notes': notes}
         else:
@@ -262,7 +262,7 @@ class user_account:
         my_note = cl.get_task('156983' notes=1)
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}.json'.format(list_id, task_id)
         if notes:
             payload = {'token': self.api_token, 'with_notes': notes}
         else:
@@ -301,7 +301,7 @@ class user_account:
         my_task = cl.add_task('156983', 'I created a closed task ...', tags='wtf', status=1)
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks.json'.format(list_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks.json'.format(list_id)
         payload = {'token': self.api_token}
         payload['task[content]'] = task_content
         if parent_id:
@@ -321,7 +321,11 @@ class user_account:
            payload['task[status]'] = status
 
         r = requests.post(list_url, data=payload)
+        print(payload)
+        print(list_url)
+        print(r)
         parsed_json = json.loads(r.content)
+        print(parsed_json)
         if self.bugger:
             pp.pprint(parsed_json)
         if r.status_code == requests.codes.ok:
@@ -340,7 +344,7 @@ class user_account:
 
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/import.json'.format(list_id)
+        list_url = 'https://checkvist.com/checklists/{}/import.json'.format(list_id)
         payload = {'token': self.api_token, 'import_content': import_content}
         r = requests.post(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -373,7 +377,7 @@ class user_account:
         Change task parent:
             my_task = cl.update_task('156983', '7290225', parent_id='7290244')
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}.json'.format(list_id, task_id)
         payload = {'token': self.api_token}
         # Task content is optional. Test for existence.
         if task_content:
@@ -410,7 +414,7 @@ class user_account:
         my_task = cl.close_task('156983', '7291390')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/close.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/close.json'.format(list_id, task_id)
         payload = {'token': self.api_token}
         r = requests.post(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -430,7 +434,7 @@ class user_account:
         my_task = cl.reopen_task('156983', '7291390')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/reopen.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/reopen.json'.format(list_id, task_id)
         payload = {'token': self.api_token}
         r = requests.post(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -449,7 +453,7 @@ class user_account:
         my_task = cl.invalidate_task('156983', '7291390')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/invalidate.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/invalidate.json'.format(list_id, task_id)
         payload = {'token': self.api_token}
         r = requests.post(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -466,7 +470,7 @@ class user_account:
         Both list_id and task_id are required
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}.json'.format(list_id, task_id)
         payload = {'token': self.api_token}
         r = requests.delete(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -489,7 +493,7 @@ class user_account:
         my_notes = cl.get_notes('156983', '7291617')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/comments.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/comments.json'.format(list_id, task_id)
         payload = {'token': self.api_token}
         r = requests.get(list_url, params=payload)
         parsed_json = json.loads(r.content)
@@ -511,7 +515,7 @@ class user_account:
         my_note = cl.add_note('156983', '7291617', 'this is a note.')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/comments.json'.format(list_id, task_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/comments.json'.format(list_id, task_id)
         payload = {'token': self.api_token, 'comment[comment]': comment}
         r = requests.post(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -533,7 +537,7 @@ class user_account:
         my_note = cl.update_note('156983', '7291617', '337056', 'I just updated the note text.')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/comments/{}.json'.format(list_id, task_id, note_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/comments/{}.json'.format(list_id, task_id, note_id)
         payload = {'token': self.api_token, 'comment[comment]': comment}
         r = requests.put(list_url, data=payload)
         parsed_json = json.loads(r.content)
@@ -554,7 +558,7 @@ class user_account:
         my_note = cl.delete_note('156983', '7291617', '337056')
 
         """
-        list_url = 'http://checkvist.com/checklists/{}/tasks/{}/comments/{}.json'.format(list_id, task_id, note_id)
+        list_url = 'https://checkvist.com/checklists/{}/tasks/{}/comments/{}.json'.format(list_id, task_id, note_id)
         payload = {'token': self.api_token}
         r = requests.delete(list_url, data=payload)
         parsed_json = json.loads(r.content)
